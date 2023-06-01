@@ -1,7 +1,9 @@
+const { generateToken } = require('../config/jwToken');
 const User = require('../models/userModel');
 
+
 class AuthController {
-  // [POST] /register
+  // [POST] /auth/register
   async register(req, res) {
     const { email } = req.body;
     const findUser = await User.findOne({ email });
@@ -13,10 +15,28 @@ class AuthController {
         const user = await newUser.save();
         res.status(200).json({ user });
       } else {
-        res.status(400).json('Email Already Exists');
+        throw new Error("Email Already Exists");
       }
     } catch (err) {
       res.status(500).json({ message: err.message });
+    }
+  }
+
+  // [POST] /auth/login
+  async login(req, res) {
+    const { email, password } = req.body;
+    const findUser = await User.findOne({ email });
+    if (findUser && await findUser.isPasswordMatched(password)) {
+      res.status(200).json({
+        _id: findUser?._id,
+        firstname: findUser?.firstname,
+        lastname: findUser?.lastname,
+        email: findUser?.email,
+        mobilename: findUser?.mobilename,
+        token: generateToken(findUser?._id)
+      })
+    } else {
+      throw new Error("Invalid Credentials")
     }
   }
 }
