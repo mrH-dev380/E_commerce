@@ -1,5 +1,6 @@
 const User = require('../models/userModel')
 const bcrypt = require('bcrypt')
+const validateMongodbId = require('../utils/validateMongodbId')
 
 class UserController {
   // [GET] /user/all-user
@@ -15,6 +16,7 @@ class UserController {
   // [GET] /user/:id
   async getUser(req, res) {
     const { id } = req.params
+    validateMongodbId(id)
     try {
       const findUser = await User.findById(id)
       res.status(200).json(findUser)
@@ -27,6 +29,7 @@ class UserController {
   async updateUser(req, res) {
     const { _id } = req.user
     const { password } = req.body
+    validateMongodbId(_id)
     try {
       if (password) {
         const salt = await bcrypt.genSaltSync(10)
