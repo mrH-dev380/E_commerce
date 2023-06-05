@@ -5,6 +5,8 @@ const AuthController = require('../controllers/AuthController')
 
 router.post('/register', asyncHandler(AuthController.register))
 router.post('/login', asyncHandler(AuthController.login))
+router.post('/forget-password', asyncHandler(AuthController.forgetPassword))
+router.put('/reset-password/:token', asyncHandler(AuthController.resetPassword))
 router.get('/refresh-token', asyncHandler(AuthController.refreshToken))
 router.get('/logout', asyncHandler(AuthController.logout))
 
