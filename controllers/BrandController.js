@@ -1,61 +1,59 @@
-const BlogCategory = require('../models/blogCategoryModel')
+const Brand = require('../models/brandModel')
 const validateMongodbId = require('../utils/validateMongodbId')
 
-class BlogCategoryController {
-  // [GET] /blog-category
-  async getAllBlogCategory(req, res) {
+class BrandController {
+  // [GET] /brand
+  async getAllBrand(req, res) {
     try {
-      const getAllBlogCategory = await BlogCategory.find()
-      res.json(getAllBlogCategory)
+      const getAllBrand = await Brand.find()
+      res.json(getAllBrand)
     } catch (error) {
       throw new Error(error)
     }
   }
 
-  // [GET] /blog-category/:id
-  async getBlogCategoryById(req, res) {
+  // [GET] /brand/:id
+  async getBrandById(req, res) {
     const { id } = req.params
     validateMongodbId(id)
     try {
-      const blogCategory = await BlogCategory.findById(id)
-      res.json(blogCategory)
+      const brand = await Brand.findById(id)
+      res.json(brand)
     } catch (error) {
       throw new Error(error)
     }
   }
 
-  // [POST] /blog-category
-  async createBlogCategory(req, res) {
+  // [POST] /brand
+  async createBrand(req, res) {
     try {
-      const newBlogCategory = await BlogCategory.create(req.body)
-      res.json(newBlogCategory)
+      const newBrand = await Brand.create(req.body)
+      res.json(newBrand)
     } catch (error) {
       throw new Error(error)
     }
   }
 
-  // [PUT] /blog-category/:id
-  async updateBlogCategory(req, res) {
+  // [PUT] /brand/:id
+  async updateBrand(req, res) {
     const { id } = req.params
     validateMongodbId(id)
     try {
-      const updateBlogCategory = await BlogCategory.findByIdAndUpdate(
-        id,
-        req.body,
-        { new: true }
-      )
-      res.json(updateBlogCategory)
+      const updateBrand = await Brand.findByIdAndUpdate(id, req.body, {
+        new: true,
+      })
+      res.json(updateBrand)
     } catch (error) {
       throw new Error(error)
     }
   }
 
-  // [DELETE] /blog-category/:id
-  async deleteBlogCategory(req, res) {
+  // [DELETE] /brand/:id
+  async deleteBrand(req, res) {
     const { id } = req.params
     validateMongodbId(id)
     try {
-      const deleteBlogCategory = await BlogCategory.findByIdAndDelete(id)
+      const deleteBrand = await Brand.findByIdAndDelete(id)
       res.json('Delete Successfully')
     } catch (error) {
       throw new Error(error)
@@ -63,4 +61,4 @@ class BlogCategoryController {
   }
 }
 
-module.exports = new BlogCategoryController()
+module.exports = new BrandController()
