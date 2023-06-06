@@ -1,45 +1,7 @@
 const Blog = require('../models/blogModel')
-const User = require('../models/userModel')
 const validateMongodbId = require('../utils/validateMongodbId')
 
 class BlogController {
-  // [POST] /blog
-  async createBlog(req, res) {
-    try {
-      const newBlog = await new Blog(req.body)
-      const blog = await newBlog.save()
-      res.status(200).json(blog)
-    } catch (error) {
-      throw new Error(error)
-    }
-  }
-
-  // [PUT] /blog/:id
-  async updateBlog(req, res) {
-    const { id } = req.params
-    validateMongodbId(id)
-    try {
-      const updateBlog = await Blog.findByIdAndUpdate(id, req.body, {
-        new: true,
-      })
-      res.status(200).json(updateBlog)
-    } catch (error) {
-      throw new Error(error)
-    }
-  }
-
-  // [DELETE] /blog/:id
-  async deleteBlog(req, res) {
-    const { id } = req.params
-    validateMongodbId(id)
-    try {
-      const deleteBlog = await Blog.findByIdAndDelete(id)
-      res.status(200).json('Delete Successfully')
-    } catch (error) {
-      throw new Error(error)
-    }
-  }
-
   // [GET] /blog
   async getAllBlog(req, res) {
     try {
@@ -65,6 +27,31 @@ class BlogController {
         .populate('likes')
         .populate('dislikes')
       res.status(200).json(findBlog)
+    } catch (error) {
+      throw new Error(error)
+    }
+  }
+
+  // [POST] /blog
+  async createBlog(req, res) {
+    try {
+      const newBlog = await new Blog(req.body)
+      const blog = await newBlog.save()
+      res.status(200).json(blog)
+    } catch (error) {
+      throw new Error(error)
+    }
+  }
+
+  // [PUT] /blog/:id
+  async updateBlog(req, res) {
+    const { id } = req.params
+    validateMongodbId(id)
+    try {
+      const updateBlog = await Blog.findByIdAndUpdate(id, req.body, {
+        new: true,
+      })
+      res.status(200).json(updateBlog)
     } catch (error) {
       throw new Error(error)
     }
@@ -164,6 +151,18 @@ class BlogController {
         { new: true }
       )
       res.json(blog)
+    }
+  }
+
+  // [DELETE] /blog/:id
+  async deleteBlog(req, res) {
+    const { id } = req.params
+    validateMongodbId(id)
+    try {
+      const deleteBlog = await Blog.findByIdAndDelete(id)
+      res.status(200).json('Delete Successfully')
+    } catch (error) {
+      throw new Error(error)
     }
   }
 }

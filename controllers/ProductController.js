@@ -77,7 +77,6 @@ class ProductController {
   // [PUT] /product/:id
   async updateProduct(req, res) {
     const { id } = req.params
-    console.log(id, req.body)
     try {
       if (req.body.title) {
         req.body.slug = slugify(req.body.title)
@@ -94,7 +93,6 @@ class ProductController {
   // [DELETE] /product/:id
   async deleteProduct(req, res) {
     const { id } = req.params
-    console.log(id, req.body)
     try {
       const deleteProduct = await Product.findByIdAndDelete(id)
       res.status(200).json('Delete Successfully!')
