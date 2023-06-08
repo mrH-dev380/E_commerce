@@ -1,6 +1,8 @@
 const Product = require('../models/productModel')
 const User = require('../models/userModel')
 const slugify = require('slugify')
+const validateMongoDbId = require('../utils/validateMongoDbId')
+const { cloudinaryUploadImg } = require('../utils/cloudinary')
 
 class ProductController {
   // [POST] /product/create-product
@@ -75,9 +77,38 @@ class ProductController {
     }
   }
 
+  // [PUT] /product/upload-photo/:id
+  async uploadImages(req, res) {
+    const { id } = req.params
+    validateMongoDbId(id)
+    try {
+      const uploader = (path) => cloudinaryUploadImg(path, 'images')
+      const urls = []
+      const files = req.files
+      for (const file of files) {
+        const { path } = file
+        const newPath = await uploader(path)
+        urls.push(newPath)
+      }
+      const findProduct = await Product.findByIdAndUpdate(
+        id,
+        {
+          images: urls.map((file) => {
+            return file
+          }),
+        },
+        { new: true }
+      )
+      res.json(findProduct)
+    } catch (error) {
+      throw new Error(error)
+    }
+  }
+
   // [PUT] /product/:id
   async updateProduct(req, res) {
     const { id } = req.params
+    validateMongoDbId(id)
     try {
       if (req.body.title) {
         req.body.slug = slugify(req.body.title)
