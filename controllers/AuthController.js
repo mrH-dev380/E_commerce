@@ -32,7 +32,7 @@ class AuthController {
     const findUser = await User.findOne({ email })
     if (findUser && (await findUser.isPasswordMatched(password))) {
       const refreshToken = await generateRefreshToken(findUser?._id)
-      const updateuser = await User.findByIdAndUpdate(
+      const updateUser = await User.findByIdAndUpdate(
         findUser._id,
         {
           refreshToken: refreshToken,
@@ -50,6 +50,37 @@ class AuthController {
         email: findUser?.email,
         mobile: findUser?.mobile,
         token: generateToken(findUser?._id),
+      })
+    } else {
+      throw new Error('Invalid Credentials')
+    }
+  }
+
+  // [POST] /auth/login
+  async loginAdmin(req, res) {
+    const { email, password } = req.body
+    const findAdmin = await User.findOne({ email })
+    if (findAdmin.role !== 'admin') throw new Error('Not Authorized')
+    if (findAdmin && (await findAdmin.isPasswordMatched(password))) {
+      const refreshToken = await generateRefreshToken(findAdmin?._id)
+      const updateAdmin = await User.findByIdAndUpdate(
+        findAdmin._id,
+        {
+          refreshToken: refreshToken,
+        },
+        { new: true }
+      )
+      res.status(200).cookie('refreshToken', refreshToken, {
+        httpOnly: true,
+        maxAge: 60 * 60 * 24 * 1000, // 1 day
+      })
+      res.status(200).json({
+        _id: findAdmin?._id,
+        firstname: findAdmin?.firstname,
+        lastname: findAdmin?.lastname,
+        email: findAdmin?.email,
+        mobile: findAdmin?.mobile,
+        token: generateToken(findAdmin?._id),
       })
     } else {
       throw new Error('Invalid Credentials')
