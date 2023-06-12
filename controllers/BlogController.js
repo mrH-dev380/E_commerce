@@ -1,5 +1,7 @@
+const fs = require('fs')
 const Blog = require('../models/blogModel')
-const validateMongodbId = require('../utils/validateMongodbId')
+const validateMongoDbId = require('../utils/validateMongoDbId')
+const { cloudinaryUploadImg } = require('../utils/cloudinary')
 
 class BlogController {
   // [GET] /blog
@@ -52,6 +54,35 @@ class BlogController {
         new: true,
       })
       res.status(200).json(updateBlog)
+    } catch (error) {
+      throw new Error(error)
+    }
+  }
+
+  // [PUT] /blog/upload-photo/:id
+  async uploadImages(req, res) {
+    const { id } = req.params
+    validateMongoDbId(id)
+    try {
+      const uploader = (path) => cloudinaryUploadImg(path, 'images')
+      const urls = []
+      const files = req.files
+      for (const file of files) {
+        const { path } = file
+        const newPath = await uploader(path)
+        urls.push(newPath)
+        fs.unlinkSync(path)
+      }
+      const findBlog = await Blog.findByIdAndUpdate(
+        id,
+        {
+          images: urls.map((file) => {
+            return file
+          }),
+        },
+        { new: true }
+      )
+      res.json(findBlog)
     } catch (error) {
       throw new Error(error)
     }

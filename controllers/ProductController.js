@@ -1,6 +1,7 @@
+const fs = require('fs')
+const slugify = require('slugify')
 const Product = require('../models/productModel')
 const User = require('../models/userModel')
-const slugify = require('slugify')
 const validateMongoDbId = require('../utils/validateMongoDbId')
 const { cloudinaryUploadImg } = require('../utils/cloudinary')
 
@@ -89,6 +90,7 @@ class ProductController {
         const { path } = file
         const newPath = await uploader(path)
         urls.push(newPath)
+        fs.unlinkSync(path)
       }
       const findProduct = await Product.findByIdAndUpdate(
         id,
