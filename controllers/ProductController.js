@@ -230,8 +230,9 @@ class ProductController {
     }
   }
 
-  // [DELETE] /product/
+  // [DELETE] /product/delete-photo/:id
   async deleteImages(req, res) {
+    // id from publicId
     const { id } = req.params
     try {
       const deleted = cloudinaryDeleteImg(id, 'images')
