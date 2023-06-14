@@ -1,5 +1,5 @@
 const ProdCategory = require('../models/prodCategoryModel')
-const validateMongodbId = require('../utils/validateMongodbId')
+const validateMongoDbId = require('../utils/validateMongoDbId')
 
 class ProdCategoryController {
   // [GET] /category
@@ -15,7 +15,7 @@ class ProdCategoryController {
   // [GET] /category/:id
   async getCategoryById(req, res) {
     const { id } = req.params
-    validateMongodbId(id)
+    validateMongoDbId(id)
     try {
       const category = await ProdCategory.findById(id)
       res.json(category)
@@ -37,7 +37,7 @@ class ProdCategoryController {
   // [PUT] /category/:id
   async updateCategory(req, res) {
     const { id } = req.params
-    validateMongodbId(id)
+    validateMongoDbId(id)
     try {
       const updateCategory = await ProdCategory.findByIdAndUpdate(
         id,
@@ -53,7 +53,7 @@ class ProdCategoryController {
   // [DELETE] /category/:id
   async deleteCategory(req, res) {
     const { id } = req.params
-    validateMongodbId(id)
+    validateMongoDbId(id)
     try {
       const deleteCategory = await ProdCategory.findByIdAndDelete(id)
       res.json('Delete Successfully')

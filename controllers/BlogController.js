@@ -48,7 +48,7 @@ class BlogController {
   // [PUT] /blog/:id
   async updateBlog(req, res) {
     const { id } = req.params
-    validateMongodbId(id)
+    validateMongoDbId(id)
     try {
       const updateBlog = await Blog.findByIdAndUpdate(id, req.body, {
         new: true,
@@ -91,7 +91,7 @@ class BlogController {
   // [PUT] /blog/likes
   async likeTheBlog(req, res) {
     const { blogId } = req.body
-    validateMongodbId(blogId)
+    validateMongoDbId(blogId)
     // Find the blog which you want to be liked
     const blog = await Blog.findById(blogId)
     // Find the login user return ObjectId
@@ -139,7 +139,7 @@ class BlogController {
   // [PUT] /blog/dislikes
   async dislikeTheBlog(req, res) {
     const { blogId } = req.body
-    validateMongodbId(blogId)
+    validateMongoDbId(blogId)
     // Find the blog which you want to be disliked
     const blog = await Blog.findById(blogId)
     // Find the login user
@@ -188,7 +188,7 @@ class BlogController {
   // [DELETE] /blog/:id
   async deleteBlog(req, res) {
     const { id } = req.params
-    validateMongodbId(id)
+    validateMongoDbId(id)
     try {
       const deleteBlog = await Blog.findByIdAndDelete(id)
       res.status(200).json('Delete Successfully')

@@ -3,7 +3,10 @@ const slugify = require('slugify')
 const Product = require('../models/productModel')
 const User = require('../models/userModel')
 const validateMongoDbId = require('../utils/validateMongoDbId')
-const { cloudinaryUploadImg } = require('../utils/cloudinary')
+const {
+  cloudinaryUploadImg,
+  cloudinaryDeleteImg,
+} = require('../utils/cloudinary')
 
 class ProductController {
   // [POST] /product/create-product
@@ -92,6 +95,10 @@ class ProductController {
         urls.push(newPath)
         fs.unlinkSync(path)
       }
+      // const images = urls.map((file) => {
+      //   return file
+      // })
+      // res.json(images)
       const findProduct = await Product.findByIdAndUpdate(
         id,
         {
@@ -218,6 +225,17 @@ class ProductController {
     try {
       const deleteProduct = await Product.findByIdAndDelete(id)
       res.status(200).json('Delete Successfully!')
+    } catch (error) {
+      throw new Error(error)
+    }
+  }
+
+  // [DELETE] /product/
+  async deleteImages(req, res) {
+    const { id } = req.params
+    try {
+      const deleted = cloudinaryDeleteImg(id, 'images')
+      res.json({ message: 'Deleted' })
     } catch (error) {
       throw new Error(error)
     }

@@ -18,6 +18,7 @@ router.put('/upload-photo/:id',
 router.put('/wishlist', authMiddleware, asyncHandler(ProductController.addToWishlist))
 router.put('/rating', authMiddleware, asyncHandler(ProductController.rating))
 router.put('/:id', authMiddleware, isAdmin, asyncHandler(ProductController.updateProduct))
+router.delete("/delete-photo/:id", authMiddleware, isAdmin, asyncHandler(ProductController.deleteImages))
 router.delete('/:id', authMiddleware, isAdmin, asyncHandler(ProductController.deleteProduct))
 
 module.exports = router

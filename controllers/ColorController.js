@@ -1,5 +1,5 @@
 const Color = require('../models/colorModel')
-const validateMongodbId = require('../utils/validateMongodbId')
+const validateMongoDbId = require('../utils/validateMongoDbId')
 
 class ColorController {
   // [GET] /color
@@ -15,7 +15,7 @@ class ColorController {
   // [GET] /color/:id
   async getColorById(req, res) {
     const { id } = req.params
-    validateMongodbId(id)
+    validateMongoDbId(id)
     try {
       const color = await Color.findById(id)
       res.json(color)
@@ -37,7 +37,7 @@ class ColorController {
   // [PUT] /color/:id
   async updateColor(req, res) {
     const { id } = req.params
-    validateMongodbId(id)
+    validateMongoDbId(id)
     try {
       const updateColor = await Color.findByIdAndUpdate(id, req.body, {
         new: true,
@@ -51,7 +51,7 @@ class ColorController {
   // [DELETE] /color/:id
   async deleteColor(req, res) {
     const { id } = req.params
-    validateMongodbId(id)
+    validateMongoDbId(id)
     try {
       const deleteColor = await Color.findByIdAndDelete(id)
       res.json('Delete Successfully')

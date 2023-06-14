@@ -1,5 +1,5 @@
 const Brand = require('../models/brandModel')
-const validateMongodbId = require('../utils/validateMongodbId')
+const validateMongoDbId = require('../utils/validateMongoDbId')
 
 class BrandController {
   // [GET] /brand
@@ -15,7 +15,7 @@ class BrandController {
   // [GET] /brand/:id
   async getBrandById(req, res) {
     const { id } = req.params
-    validateMongodbId(id)
+    validateMongoDbId(id)
     try {
       const brand = await Brand.findById(id)
       res.json(brand)
@@ -37,7 +37,7 @@ class BrandController {
   // [PUT] /brand/:id
   async updateBrand(req, res) {
     const { id } = req.params
-    validateMongodbId(id)
+    validateMongoDbId(id)
     try {
       const updateBrand = await Brand.findByIdAndUpdate(id, req.body, {
         new: true,
@@ -51,7 +51,7 @@ class BrandController {
   // [DELETE] /brand/:id
   async deleteBrand(req, res) {
     const { id } = req.params
-    validateMongodbId(id)
+    validateMongoDbId(id)
     try {
       const deleteBrand = await Brand.findByIdAndDelete(id)
       res.json('Delete Successfully')

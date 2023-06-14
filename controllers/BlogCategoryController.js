@@ -1,5 +1,5 @@
 const BlogCategory = require('../models/blogCategoryModel')
-const validateMongodbId = require('../utils/validateMongodbId')
+const validateMongoDbId = require('../utils/validateMongoDbId')
 
 class BlogCategoryController {
   // [GET] /blog-category
@@ -15,7 +15,7 @@ class BlogCategoryController {
   // [GET] /blog-category/:id
   async getBlogCategoryById(req, res) {
     const { id } = req.params
-    validateMongodbId(id)
+    validateMongoDbId(id)
     try {
       const blogCategory = await BlogCategory.findById(id)
       res.json(blogCategory)
@@ -37,7 +37,7 @@ class BlogCategoryController {
   // [PUT] /blog-category/:id
   async updateBlogCategory(req, res) {
     const { id } = req.params
-    validateMongodbId(id)
+    validateMongoDbId(id)
     try {
       const updateBlogCategory = await BlogCategory.findByIdAndUpdate(
         id,
@@ -53,7 +53,7 @@ class BlogCategoryController {
   // [DELETE] /blog-category/:id
   async deleteBlogCategory(req, res) {
     const { id } = req.params
-    validateMongodbId(id)
+    validateMongoDbId(id)
     try {
       const deleteBlogCategory = await BlogCategory.findByIdAndDelete(id)
       res.json('Delete Successfully')

@@ -1,5 +1,5 @@
 const Coupon = require('../models/couponModel')
-const validateMongodbId = require('../utils/validateMongodbId')
+const validateMongoDbId = require('../utils/validateMongoDbId')
 
 class CouponController {
   // [GET] /coupon
@@ -15,7 +15,7 @@ class CouponController {
   // [GET] /coupon/:id
   async getCouponById(req, res) {
     const { id } = req.params
-    validateMongodbId(id)
+    validateMongoDbId(id)
     try {
       const coupon = await Coupon.findById(id)
       res.json(coupon)
@@ -37,7 +37,7 @@ class CouponController {
   // [PUT] /coupon/:id
   async updateCoupon(req, res) {
     const { id } = req.params
-    validateMongodbId(id)
+    validateMongoDbId(id)
     try {
       const updateCoupon = await Coupon.findByIdAndUpdate(id, req.body, {
         new: true,
@@ -51,7 +51,7 @@ class CouponController {
   // [DELETE] /coupon/:id
   async deleteCoupon(req, res) {
     const { id } = req.params
-    validateMongodbId(id)
+    validateMongoDbId(id)
     try {
       const deleteCoupon = await Coupon.findByIdAndDelete(id)
       res.json('Delete Successfully')
