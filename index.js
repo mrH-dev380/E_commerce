@@ -6,11 +6,13 @@ const route = require('./routes')
 const { notFound, errorHandler } = require('./middlewares/errorHandle')
 const cookieParser = require('cookie-parser')
 const morgan = require('morgan')
+const cors = require('cors')
 const PORT = process.env.PORT || 4000
 
 const app = express() // init app
 dbConnect() // connect to database
 
+app.use(cors())
 app.use(morgan('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
