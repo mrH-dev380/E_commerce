@@ -86,7 +86,7 @@ class UserController {
     }
   }
 
-  // [GET] /user/all-order
+  // [GET] /user/all-orders
   async getAllOrder(req, res) {
     const { _id } = req.user
     try {

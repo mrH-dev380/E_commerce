@@ -1,12 +1,7 @@
-const fs = require('fs')
 const slugify = require('slugify')
 const Product = require('../models/productModel')
 const User = require('../models/userModel')
 const validateMongoDbId = require('../utils/validateMongoDbId')
-const {
-  cloudinaryUploadImg,
-  cloudinaryDeleteImg,
-} = require('../utils/cloudinary')
 
 class ProductController {
   // [POST] /product/create-product
@@ -76,39 +71,6 @@ class ProductController {
     try {
       const getProduct = await query
       res.status(200).json(getProduct)
-    } catch (error) {
-      throw new Error(error)
-    }
-  }
-
-  // [PUT] /product/upload-photo/:id
-  async uploadImages(req, res) {
-    const { id } = req.params
-    validateMongoDbId(id)
-    try {
-      const uploader = (path) => cloudinaryUploadImg(path, 'images')
-      const urls = []
-      const files = req.files
-      for (const file of files) {
-        const { path } = file
-        const newPath = await uploader(path)
-        urls.push(newPath)
-        fs.unlinkSync(path)
-      }
-      // const images = urls.map((file) => {
-      //   return file
-      // })
-      // res.json(images)
-      const findProduct = await Product.findByIdAndUpdate(
-        id,
-        {
-          images: urls.map((file) => {
-            return file
-          }),
-        },
-        { new: true }
-      )
-      res.json(findProduct)
     } catch (error) {
       throw new Error(error)
     }
@@ -225,18 +187,6 @@ class ProductController {
     try {
       const deleteProduct = await Product.findByIdAndDelete(id)
       res.status(200).json('Delete Successfully!')
-    } catch (error) {
-      throw new Error(error)
-    }
-  }
-
-  // [DELETE] /product/delete-photo/:id
-  async deleteImages(req, res) {
-    // id from publicId
-    const { id } = req.params
-    try {
-      const deleted = cloudinaryDeleteImg(id, 'images')
-      res.json({ message: 'Deleted' })
     } catch (error) {
       throw new Error(error)
     }

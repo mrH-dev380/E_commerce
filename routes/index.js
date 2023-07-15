@@ -8,6 +8,7 @@ const brandRoute = require('./brandRoute')
 const colorRoute = require('./colorRoute')
 const couponRoute = require('./couponRoute')
 const enquiryRoute = require('./enquiryRoute')
+const uploadImgRoute = require('./uploadImgRoute')
 
 function route(app) {
   app.use('/auth', authRoute)
@@ -20,6 +21,7 @@ function route(app) {
   app.use('/color', colorRoute)
   app.use('/coupon', couponRoute)
   app.use('/enquiry', enquiryRoute)
+  app.use('/uploadImg', uploadImgRoute)
 }
 
 module.exports = route;
