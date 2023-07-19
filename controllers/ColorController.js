@@ -1,5 +1,5 @@
 const Color = require('../models/colorModel')
-const validateMongoDbId = require('../utils/validateMongoDbId')
+const { validateMongoDbId } = require('../utils/validateMongoDbId')
 
 class ColorController {
   // [GET] /color

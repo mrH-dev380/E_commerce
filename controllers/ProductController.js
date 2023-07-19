@@ -1,7 +1,7 @@
 const slugify = require('slugify')
 const Product = require('../models/productModel')
 const User = require('../models/userModel')
-const validateMongoDbId = require('../utils/validateMongoDbId')
+const { validateMongoDbId } = require('../utils/validateMongoDbId')
 
 class ProductController {
   // [POST] /product/create-product

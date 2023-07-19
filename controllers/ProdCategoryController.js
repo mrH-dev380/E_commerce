@@ -1,5 +1,5 @@
 const ProdCategory = require('../models/prodCategoryModel')
-const validateMongoDbId = require('../utils/validateMongoDbId')
+const { validateMongoDbId } = require('../utils/validateMongoDbId')
 
 class ProdCategoryController {
   // [GET] /category

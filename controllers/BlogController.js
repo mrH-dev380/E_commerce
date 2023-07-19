@@ -1,6 +1,6 @@
 const fs = require('fs')
 const Blog = require('../models/blogModel')
-const validateMongoDbId = require('../utils/validateMongoDbId')
+const { validateMongoDbId } = require('../utils/validateMongoDbId')
 const { cloudinaryUploadImg } = require('../utils/cloudinary')
 
 class BlogController {

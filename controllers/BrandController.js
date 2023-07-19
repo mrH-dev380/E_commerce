@@ -1,5 +1,5 @@
 const Brand = require('../models/brandModel')
-const validateMongoDbId = require('../utils/validateMongoDbId')
+const { validateMongoDbId } = require('../utils/validateMongoDbId')
 
 class BrandController {
   // [GET] /brand
@@ -20,6 +20,7 @@ class BrandController {
       const brand = await Brand.findById(id)
       res.json(brand)
     } catch (error) {
+      res.json(id)
       throw new Error(error)
     }
   }

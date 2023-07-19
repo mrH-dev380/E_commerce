@@ -1,5 +1,5 @@
 const Enquiry = require('../models/enquiryModel')
-const validateMongoDbId = require('../utils/validateMongoDbId')
+const { validateMongoDbId } = require('../utils/validateMongoDbId')
 
 class EnquiryController {
   // [GET] /enquiry

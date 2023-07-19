@@ -1,5 +1,5 @@
 const BlogCategory = require('../models/blogCategoryModel')
-const validateMongoDbId = require('../utils/validateMongoDbId')
+const { validateMongoDbId } = require('../utils/validateMongoDbId')
 
 class BlogCategoryController {
   // [GET] /blog-category

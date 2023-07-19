@@ -1,5 +1,5 @@
 const Coupon = require('../models/couponModel')
-const validateMongoDbId = require('../utils/validateMongoDbId')
+const { validateMongoDbId } = require('../utils/validateMongoDbId')
 
 class CouponController {
   // [GET] /coupon
