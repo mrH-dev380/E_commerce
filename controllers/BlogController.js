@@ -150,7 +150,6 @@ class BlogController {
     const alreadyLiked = blog?.likes?.find(
       (userId) => userId?.toString() === loginUserId?.toString()
     )
-    console.log(isDisLiked, alreadyLiked)
     if (alreadyLiked) {
       const blog = await Blog.findByIdAndUpdate(
         blogId,

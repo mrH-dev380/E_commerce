@@ -61,10 +61,12 @@ class UserController {
   // [GET] /user/order/:id
   async getOrder(req, res) {
     const { id } = req.params
-    const { _id } = req.user
-    validateMongoDbId(_id)
+    validateMongoDbId(id)
     try {
       const getOrder = await Order.findById(id)
+        .populate('products.product')
+        .populate('orderby')
+        .exec()
       res.json(getOrder)
     } catch (error) {
       throw new Error(error)
@@ -88,7 +90,6 @@ class UserController {
 
   // [GET] /user/all-orders
   async getAllOrder(req, res) {
-    const { _id } = req.user
     try {
       const getAllOrder = await Order.find()
         .populate('products.product')
@@ -127,7 +128,6 @@ class UserController {
       const cartTotal = products.reduce((total, product) => {
         return product.price * product.count + total
       }, 0)
-      console.log(cartTotal)
       const newCart = await new Cart({
         products,
         cartTotal,
