@@ -32,7 +32,7 @@ class UploadImgController {
     const { id } = req.params
     try {
       const deleted = cloudinaryDeleteImg(id, 'images')
-      res.json({ message: 'Deleted' })
+      res.json(id)
     } catch (error) {
       throw new Error(error)
     }
