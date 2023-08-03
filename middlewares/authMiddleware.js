@@ -4,7 +4,8 @@ const asyncHandler = require('express-async-handler')
 
 const authMiddleware = asyncHandler(async (req, res, next) => {
   let token
-  if (req?.headers?.authorization?.startsWith('Bearer')) {
+  // example: Authorization : Bearer cn389ncoiwuencr
+  if (req?.headers?.authorization?.split(' ')[0] === 'Bearer') {
     token = req.headers.authorization?.split(' ')[1]
     try {
       if (token) {
