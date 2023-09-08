@@ -37,11 +37,13 @@ class ProdCategoryController {
   // [PUT] /category/:id
   async updateCategory(req, res) {
     const { id } = req.params
+    const { title } = req.body
     validateMongoDbId(id)
     try {
+      console.log(title)
       const updateCategory = await ProdCategory.findByIdAndUpdate(
         id,
-        req.body,
+        { title },
         { new: true }
       )
       res.json(updateCategory)

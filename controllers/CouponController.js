@@ -24,6 +24,19 @@ class CouponController {
     }
   }
 
+  // [GET] /coupon/findCouponByName
+  async findCouponByName(req, res) {
+    const { coupon } = req.body
+    const { _id } = req.user
+    validateMongoDbId(_id)
+    try {
+      const findCoupon = await Coupon.findOne({ name: coupon })
+      res.json(findCoupon)
+    } catch (error) {
+      throw new Error(error)
+    }
+  }
+
   // [POST] /coupon
   async createCoupon(req, res) {
     try {

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose') // Erase if already required
 
 // Declare the Schema of the Mongo model
-var cartSchema = new mongoose.Schema(
+var preOrderSchema = new mongoose.Schema(
   {
     products: [
       {
@@ -15,8 +15,8 @@ var cartSchema = new mongoose.Schema(
         detailProductId: String,
       },
     ],
+    shipping: Number,
     cartTotal: Number,
-    totalAfterDiscount: Number,
     orderby: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
@@ -28,4 +28,4 @@ var cartSchema = new mongoose.Schema(
 )
 
 //Export the model
-module.exports = mongoose.model('Cart', cartSchema)
+module.exports = mongoose.model('PreOrder', preOrderSchema)

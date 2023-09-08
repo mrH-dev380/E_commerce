@@ -1,5 +1,5 @@
 const { generateToken } = require('../config/jwToken')
-const generateRefreshToken = require('../config/refreshToken')
+const { generateRefreshToken } = require('../config/refreshToken')
 const jwt = require('jsonwebtoken')
 const asyncHandler = require('express-async-handler')
 const crypto = require('crypto')
@@ -49,6 +49,7 @@ class AuthController {
         lastname: findUser?.lastname,
         email: findUser?.email,
         mobile: findUser?.mobile,
+        address: findUser?.address,
         token: generateToken(findUser?._id),
       })
     } else {
@@ -91,25 +92,31 @@ class AuthController {
   async forgetPassword(req, res) {
     const { email } = req.body
     const user = await User.findOne({ email })
-    if (!user) throw new Error("Email doesn't exist")
+    if (!user) {
+      res.json({ message: 'Email not found' })
+    }
     try {
-      const token = await user.createResetPasswordToken()
-      await user.save()
-      const resetURL = `Please follow this link to reset Your Password. This link valid 10 minutes till now. <a href='http://localhost:3000/auth/reset-password/${token}'>Click Here</>`
-      const data = {
-        to: email,
-        subject: 'Reset Password',
-        text: `This mail valid in 10 minutes. Please reset your password`,
-        html: resetURL,
+      if (!user) {
+        res.json({ message: 'Email not found' })
+      } else {
+        const token = await user.createResetPasswordToken()
+        await user.save()
+        const resetURL = `Please follow this link to reset Your Password. This link valid 10 minutes till now. <a href='http://127.0.0.1:5173/reset-password/${token}'>Click Here</>`
+        const data = {
+          to: email,
+          subject: 'Reset Password',
+          text: `This mail valid in 10 minutes. Please reset your password`,
+          html: resetURL,
+        }
+        asyncHandler(EmailController.sendEmail(data))
+        res.status(200).json(token)
       }
-      asyncHandler(EmailController.sendEmail(data))
-      res.status(200).json(token)
     } catch (error) {
       throw new Error(error)
     }
   }
 
-  // [PUT] /auth/reset-password/:id
+  // [PUT] /auth/reset-password/:token
   async resetPassword(req, res) {
     const { password } = req.body
     const { token } = req.params
@@ -147,7 +154,7 @@ class AuthController {
     const cookie = req.cookies
     if (!cookie?.refreshToken) throw new Error('No Refresh Token in Cookies')
     const refreshToken = cookie.refreshToken
-    console.log(refreshToken)
+    // console.log(refreshToken)
     const user = await User.findOne({ refreshToken })
     if (!user) {
       res.clearCookie('refreshToken', {
