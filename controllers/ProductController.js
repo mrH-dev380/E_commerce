@@ -36,7 +36,12 @@ class ProductController {
     const excludeFields = ['page', 'sort', 'limit', 'fields']
     excludeFields.forEach((element) => delete queryObj[element])
     let queryStr = JSON.stringify(queryObj)
-    queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`)
+    // {"brand":"Apple","category":"Smart Phone","price":{"gte":"800"}}
+    queryStr = queryStr.replace(
+      /\b(gte|gt|lte|lt|text|search)\b/g,
+      (match) => `$${match}`
+    )
+    // {"brand":"Apple","category":"Smart Phone","price":{"$gte":"800"}}
 
     let query = Product.find(JSON.parse(queryStr))
 
@@ -60,8 +65,8 @@ class ProductController {
 
     // Pagination
 
-    const page = req.query.page
-    const limit = req.query.limit
+    const page = parseInt(req.query.page) || 1
+    const limit = parseInt(req.query.limit) || 12
     const skip = (page - 1) * limit
     query = query.skip(skip).limit(limit)
     if (req.query.page) {
