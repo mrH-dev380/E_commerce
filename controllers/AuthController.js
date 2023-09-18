@@ -22,7 +22,9 @@ class AuthController {
         throw new Error('Email Already Exists')
       }
     } catch (err) {
-      res.status(500).json({ message: err.message })
+      res
+        .status(500)
+        .json({ message: !findUser === true ? 'Email Already Exists' : err.message })
     }
   }
 

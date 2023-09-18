@@ -44,6 +44,7 @@ class ProductController {
     // {"brand":"Apple","category":"Smart Phone","price":{"$gte":"800"}}
 
     let query = Product.find(JSON.parse(queryStr))
+    let totalItems = await Product.countDocuments(JSON.parse(queryStr))
 
     // Sorting
 
@@ -75,7 +76,11 @@ class ProductController {
     }
     try {
       const getProduct = await query
-      res.status(200).json(getProduct)
+      res.status(200).json({
+        getProduct,
+        totalItems,
+        currentPage: page,
+      })
     } catch (error) {
       throw new Error(error)
     }
