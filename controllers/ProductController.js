@@ -71,8 +71,7 @@ class ProductController {
     const skip = (page - 1) * limit
     query = query.skip(skip).limit(limit)
     if (req.query.page) {
-      const productCount = await Product.countDocuments()
-      if (skip >= productCount) throw new Error('This Page does not exists')
+      if (skip >= totalItems) throw new Error('This Page does not exists')
     }
     try {
       const getProduct = await query
