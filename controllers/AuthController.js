@@ -24,7 +24,9 @@ class AuthController {
     } catch (err) {
       res
         .status(500)
-        .json({ message: !findUser === true ? 'Email Already Exists' : err.message })
+        .json({
+          message: !findUser === true ? 'Email Already Exists' : err.message,
+        })
     }
   }
 
@@ -103,7 +105,7 @@ class AuthController {
       } else {
         const token = await user.createResetPasswordToken()
         await user.save()
-        const resetURL = `Please follow this link to reset Your Password. This link valid 10 minutes till now. <a href='http://127.0.0.1:5173/reset-password/${token}'>Click Here</>`
+        const resetURL = `Please follow this link to reset Your Password. This link valid 10 minutes till now. <a href='https://lucent-dusk-59148f.netlify.app/reset-password/${token}'>Click Here</>`
         const data = {
           to: email,
           subject: 'Reset Password',
