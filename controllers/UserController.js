@@ -8,7 +8,6 @@ const Cart = require('../models/cartModel')
 const Coupon = require('../models/couponModel')
 const Order = require('../models/orderModel')
 const PreOrder = require('../models/preOrderModel')
-
 const { validateMongoDbId } = require('../utils/validateMongoDbId')
 
 class UserController {
